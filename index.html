@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Calculator</h1>
+    <div class="calculator">
+      <div class="display-group">
+        <label class="display-label" for="display-input"></label>
+        <input 
+          class="display-input" 
+          type="text" 
+          id="display-input"
+          placeholder="0" 
+          value="0"
+        />
+      </div>
+      <div class="buttons">
+        <button type="button" class="key clear" id="clear">C/CE</button>
+        <button type="button" class="key backspace" id="backspace">⌫</button>
+        <div class="numpad">
+          <div class="digits">
+            <button type="button" class="key digit" id="0">0</button>
+            <button type="button" class="key dot" id="dot">.</button>
+            <button type="button" class="key equals" id="equals">=</button>
+            <button type="button" class="key digit" id="1">1</button>
+            <button type="button" class="key digit" id="2">2</button>
+            <button type="button" class="key digit" id="3">3</button>
+            <button type="button" class="key digit" id="4">4</button>
+            <button type="button" class="key digit" id="5">5</button>
+            <button type="button" class="key digit" id="6">6</button>
+            <button type="button" class="key digit" id="7">7</button>
+            <button type="button" class="key digit" id="8">8</button>
+            <button type="button" class="key digit" id="9">9</button>
+          </div>
+          <div class="operators">
+            <button type="button" class="key operator" id="add">+</button>
+            <button type="button" class="key operator" id="subtract">-</button>
+            <button type="button" class="key operator" id="multiply">×</button>
+            <button type="button" class="key operator" id="divide">÷</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
