@@ -1,0 +1,203 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+
+body {
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  margin: auto;
+  padding: 1rem;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+}
+
+.display-input {
+  width: 100%;
+  text-align: right;
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.calculator {
+  width: 100%;
+}
+
+.key {
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 0.25rem;
+  transition: all 0.1s ease;
+}
+
+.key:hover {
+  background-color: #252525;
+}
+
+.key:focus-visible {
+  outline: 2px solid rgb(43, 107, 225);
+}
+
+.key:active {
+  outline: 0;
+  transform: translateY(2px);
+}
+
+.delete-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.clear {
+  background-color: rgb(204, 70, 70);
+  width: 100%;
+}
+
+.clear:hover {
+  background-color: rgb(188, 60, 60);
+}
+
+.clear:focus-visible,
+.equals:focus-visible {
+  outline: 2px solid #333;
+}
+
+.backspace {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  text-align: right;
+}
+
+.equals {
+  background-color: rgb(43, 107, 225);
+}
+
+.equals:hover {
+  background-color: rgb(27, 91, 209);
+}
+
+.numpad {
+  display: flex;
+  flex-direction: row;
+}
+
+.digits {
+  display: flex;
+  flex-flow: row wrap-reverse;
+}
+
+.operators {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+@media only screen and (max-width: 767px) {
+  .container {
+    padding: 1rem 2rem 1rem 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .display-input {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .key {
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 25vw;
+    margin-bottom: 0.25rem;
+  }
+
+  .clear {
+    width: 100%;
+  }
+
+  .backspace {
+    font-size: 0.825rem;
+    width: max-content;
+    margin-left: 0.25rem;
+  }
+
+  .backspace-icon {
+    margin-right: 0.5rem;
+  }
+
+  .operator {
+    font-size: 1rem;
+  }
+
+  .digits {
+    width: 100%;
+  }
+
+  .digits .key {
+    width: calc(33.3% - 0.25rem);
+    margin-right: 0.25rem;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    max-width: 42rem;
+  }
+
+  .display-input {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .key {
+    font-size: 1.5rem;
+    padding: 1rem;
+    width: 10rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .clear {
+    width: 100%;
+    font-size: 1.5rem;
+  }
+
+  .backspace {
+    font-size: 1rem;
+    width: 13rem;
+    margin-left: 0.5rem;
+  }
+
+  .backspace-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .operator {
+    font-size: 2rem;
+  }
+
+  .digits .key {
+    width: 9.5rem;
+    margin-right: 0.5rem;
+  }
+}
