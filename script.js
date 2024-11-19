@@ -25,7 +25,8 @@ const operate = function operateOnTwoNumbers(numA, operator, numB) {
   }
 }
 
-// Given an array inputs, perform multiplication/division from left to right, then addition/subtraction from left to right
+// TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right
+// TODO: Fix bug when there's a Zsingle input without operator to output itself
 const operateOnInputs = function operateOnInputList(inputs) {
   let ans = inputs.reduce((obj, input) => {
     if (typeof input === 'number') {
@@ -102,7 +103,7 @@ const handleInputs = function (key) {
 const keyButtons = [...(document.querySelectorAll('.key'))];
 keyButtons.map((keyBtn) => {
   keyBtn.addEventListener('click', (e) => { 
-    const key = e.target.getAttribute('data-skey');
+    const key = e.target.getAttribute('data-key');
     handleInputs(key);
   })
 })
