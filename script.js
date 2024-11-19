@@ -33,11 +33,9 @@ function operate(numA, operator, numB) {
   }
 }
 
-// TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right
-// TODO: Fix bug when there's a single input without operator to output itself
+// TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right (e.g. 6-3*2=0)
 // Given an array of inputs, perform operations in order and return answer
 function operateOnInputs(inputs) {
-  console.log(inputs);
   let ans = inputs.reduce((obj, input) => {
     if (typeof input === 'number') {
       obj.total = operate(obj.total, obj.operator, input);
@@ -49,7 +47,7 @@ function operateOnInputs(inputs) {
     total: 0,
     operator: '+',
   })
-  return ans;
+  return ans.total;
 }
 
 function handleNumber(key) {
@@ -101,11 +99,14 @@ function handleEquals() {
     } else {
       inputs.pop();
     }
+  } else if (currNumber) {
+    inputs.push(+currNumber);
   }
-  let ansString = operateOnInputs(inputs).total.toString();
+  let ans = operateOnInputs(inputs);
+  let ansString = ans.toString();
   currNumber = ansString;
   display.textContent = ansString;
-  inputs = [ansString];
+  inputs = [];
 }
 
 // Add event listeners to each calculator button that calls the appropriate handler function
