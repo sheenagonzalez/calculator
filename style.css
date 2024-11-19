@@ -26,7 +26,7 @@ body {
   text-align: center;
 }
 
-.display-input {
+.display {
   width: 100%;
   text-align: right;
   border: 1px solid #333;
@@ -119,7 +119,7 @@ body {
     font-size: 1.5rem;
   }
 
-  .display-input {
+  .display {
     font-size: 1.5rem;
     margin-bottom: 0.25rem;
   }
@@ -164,7 +164,7 @@ body {
     max-width: 42rem;
   }
 
-  .display-input {
+  .display {
     font-size: 2rem;
     margin-bottom: 0.5rem;
   }
