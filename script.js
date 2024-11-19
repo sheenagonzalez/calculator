@@ -35,11 +35,12 @@ function operate(numA, operator, numB) {
 
 // TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right
 // TODO: Fix bug when there's a single input without operator to output itself
+// Given an array of inputs, perform operations in order and return answer
 function operateOnInputs(inputs) {
+  console.log(inputs);
   let ans = inputs.reduce((obj, input) => {
     if (typeof input === 'number') {
-      let total = operate(obj.total, obj.operator, input);
-      obj.total = total;
+      obj.total = operate(obj.total, obj.operator, input);
     } else if (operators.includes(input)) {
       obj.operator = input;
     }
@@ -51,7 +52,6 @@ function operateOnInputs(inputs) {
   return ans;
 }
 
-// Handle button events and parse inputs
 function handleNumber(key) {
   if (currNumber === '0' || display.textContent === '0') {
     currNumber = key;
