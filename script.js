@@ -1,18 +1,26 @@
-// Operator functions
-const add = function addTwoNumbers(a, b) {
+const display = document.querySelector('.display');
+const digits = '0123456789';
+const operators = '+-*/';
+let currNumber = '';
+let inputs = [];
+
+function add(a, b) {
   return a + b;
 }
-const subtract = function subtractTwoNumbers(a, b) {
+
+function subtract(a, b) {
   return a - b;
 }
-const multiply = function multiplyTwoNumbers(a, b) {
+
+function multiply(a, b) {
   return a * b;
 }
-const divide = function divideTwoNumbers(a, b) {
+
+function divide(a, b) {
   return a / b;
 }
-let numA, operator, numB;
-const operate = function operateOnTwoNumbers(numA, operator, numB) {
+
+function operate(numA, operator, numB) {
   switch(operator) {
     case '+':
       return add(numA, numB);
@@ -26,8 +34,8 @@ const operate = function operateOnTwoNumbers(numA, operator, numB) {
 }
 
 // TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right
-// TODO: Fix bug when there's a Zsingle input without operator to output itself
-const operateOnInputs = function operateOnInputList(inputs) {
+// TODO: Fix bug when there's a single input without operator to output itself
+function operateOnInputs(inputs) {
   let ans = inputs.reduce((obj, input) => {
     if (typeof input === 'number') {
       let total = operate(obj.total, obj.operator, input);
@@ -44,67 +52,78 @@ const operateOnInputs = function operateOnInputList(inputs) {
 }
 
 // Handle button events and parse inputs
-const display = document.querySelector('.display');
-const digits = '0123456789';
-const operators = '+-*/';
-let currNumber = '';
-let inputs = [];
-const handleInputs = function (key) {
-  if (digits.includes(key) || (key === '.' && !currNumber.includes('.'))) {
-    if (currNumber === '0' || display.textContent === '0') {
-      currNumber = key;
-      display.textContent = display.textContent.slice(0, -1) + key;
-    } else {
-      currNumber += key;
-      display.textContent += key;
-    }
-  } else if (operators.includes(key) && currNumber) {
-    inputs.push(+currNumber);
-    inputs.push(key);
-    currNumber = '';
+function handleNumber(key) {
+  if (currNumber === '0' || display.textContent === '0') {
+    currNumber = key;
+    display.textContent = display.textContent.slice(0, -1) + key;
+  } else {
+    currNumber += key;
     display.textContent += key;
-  } else if (key === 'Backspace') {
-    if (display.textContent.length === 1) {
-      display.textContent = 0;
-      currNumber = '';
-      inputs = [];
-    } else {
-      display.textContent = display.textContent.slice(0, -1);
-      if (currNumber.length > 1) {
-        currNumber = currNumber.slice(0, -1);
-      } else if (currNumber.length === 1) {
-        currNumber = '';
-        inputs.pop();
-      } else {
-        currNumber = inputs[inputs.length - 1];
-        inputs.pop();
-      }
-    }
-  } else if (key === 'Escape') {
-    display.textContent = 0;
-    inputs = [];
-    currNumber = '';
-  } else if (key === '=') {
-    if (operators.includes(inputs[inputs.length - 1])) {
-      if (currNumber) {
-        inputs.push(+currNumber);
-      } else {
-        inputs.pop();
-      }
-    }
-    let ansString = operateOnInputs(inputs).total.toString();
-    currNumber = ansString;
-    display.textContent = ansString;
-    inputs = [ansString];
   }
 }
 
-// Add event listeners to each calculator button to perform its appropriate function when clicked
+function handleOperator(key) {
+  inputs.push(+currNumber);
+  inputs.push(key);
+  currNumber = '';
+  display.textContent += key;
+}
+
+function handleBackspace() {
+  if (display.textContent.length === 1) {
+    display.textContent = 0;
+    currNumber = '';
+    inputs = [];
+  } else {
+    display.textContent = display.textContent.slice(0, -1);
+    if (currNumber.length > 1) {
+      currNumber = currNumber.slice(0, -1);
+    } else if (currNumber.length === 1) {
+      currNumber = '';
+      inputs.pop();
+    } else {
+      currNumber = inputs[inputs.length - 1];
+      inputs.pop();
+    }
+  }
+}
+
+function handleClear() {
+  display.textContent = 0;
+  inputs = [];
+  currNumber = '';
+}
+
+function handleEquals() {
+  if (operators.includes(inputs[inputs.length - 1])) {
+    if (currNumber) {
+      inputs.push(+currNumber);
+    } else {
+      inputs.pop();
+    }
+  }
+  let ansString = operateOnInputs(inputs).total.toString();
+  currNumber = ansString;
+  display.textContent = ansString;
+  inputs = [ansString];
+}
+
+// Add event listeners to each calculator button that calls the appropriate handler function
 const keyButtons = [...(document.querySelectorAll('.key'))];
 keyButtons.map((keyBtn) => {
   keyBtn.addEventListener('click', (e) => { 
     const key = e.target.getAttribute('data-key');
-    handleInputs(key);
+    if (digits.includes(key) || (key === '.' && !currNumber.includes('.'))) {
+      handleNumber(key);
+    } else if (operators.includes(key) && currNumber) {
+      handleOperator(key);
+    } else if (key === 'Backspace') {
+      handleBackspace();
+    } else if (key === 'Escape') {
+      handleClear();
+    } else if (key === '=') {
+      handleEquals();
+    }
   })
 })
 
