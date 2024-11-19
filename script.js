@@ -25,52 +25,43 @@ const operate = function operateOnTwoNumbers(numA, operator, numB) {
   }
 }
 
-// Handle button events, parse inputs, perform operations and display answer
+// Given an array inputs, perform multiplication/division from left to right, then addition/subtraction from left to right
+const operateOnInputs = function operateOnInputList(inputs) {
+  let ans = inputs.reduce((obj, input) => {
+    if (typeof input === 'number') {
+      let total = operate(obj.total, obj.operator, input);
+      obj.total = total;
+    } else if (operators.includes(input)) {
+      obj.operator = input;
+    }
+    return obj;
+  }, {
+    total: 0,
+    operator: '+',
+  })
+  return ans;
+}
+
+// Handle button events and parse inputs
 const display = document.querySelector('.display');
 const digits = '0123456789';
 const operators = '+-*/';
 let currNumber = '';
 let inputs = [];
-let ans = 0;
-const handleOperation = function handleCalculatorOperation(key) {
+const handleInputs = function (key) {
   if (digits.includes(key) || (key === '.' && !currNumber.includes('.'))) {
-    // TODO: Replace leading zeroes
-    currNumber += key;
-    display.textContent = display.textContent === '0' ? key : display.textContent + key;
+    if (currNumber === '0' || display.textContent === '0') {
+      currNumber = key;
+      display.textContent = display.textContent.slice(0, -1) + key;
+    } else {
+      currNumber += key;
+      display.textContent += key;
+    }
   } else if (operators.includes(key) && currNumber) {
     inputs.push(+currNumber);
     inputs.push(key);
     currNumber = '';
     display.textContent += key;
-  } else if (key === '=') {
-    if (operators.includes(inputs[inputs.length - 1])) {
-      if (currNumber) {
-        inputs.push(+currNumber);
-      } else {
-        inputs.pop();
-      }
-    }
-    
-    let sortedInputs = inputs.sort((a, b) => {
-      // TODO: Order math operations MDAS
-      return 0;
-    });
-
-    let ans = sortedInputs.reduce((obj, input) => {
-      if (typeof input === 'number') {
-        let total = operate(obj.total, obj.operator, input);
-        obj.total = total;
-      } else if (operators.includes(input)) {
-        obj.operator = input;
-      }
-      return obj;
-    }, {
-      total: 0,
-      operator: '+',
-    }).total.toString();
-    currNumber = ans;
-    display.textContent = ans;
-    inputs = [ans];
   } else if (key === 'Backspace') {
     if (display.textContent.length === 1) {
       display.textContent = 0;
@@ -92,6 +83,18 @@ const handleOperation = function handleCalculatorOperation(key) {
     display.textContent = 0;
     inputs = [];
     currNumber = '';
+  } else if (key === '=') {
+    if (operators.includes(inputs[inputs.length - 1])) {
+      if (currNumber) {
+        inputs.push(+currNumber);
+      } else {
+        inputs.pop();
+      }
+    }
+    let ansString = operateOnInputs(inputs).total.toString();
+    currNumber = ansString;
+    display.textContent = ansString;
+    inputs = [ansString];
   }
 }
 
@@ -99,8 +102,8 @@ const handleOperation = function handleCalculatorOperation(key) {
 const keyButtons = [...(document.querySelectorAll('.key'))];
 keyButtons.map((keyBtn) => {
   keyBtn.addEventListener('click', (e) => { 
-    const key = e.target.getAttribute('data-key');
-    handleOperation(key);
+    const key = e.target.getAttribute('data-skey');
+    handleInputs(key);
   })
 })
 
