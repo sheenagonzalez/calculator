@@ -82,8 +82,8 @@ function handleOperator(key) {
 function handleBackspace() {
   if (display.textContent.length === 1) {
     display.textContent = 0;
-    currNumber = '';
-    inputs = [];
+    currNumber = '0';
+    inputs = [0];
   } else {
     display.textContent = display.textContent.slice(0, -1);
     if (currNumber.length > 1) {
@@ -100,8 +100,8 @@ function handleBackspace() {
 
 function handleClear() {
   display.textContent = 0;
-  inputs = [];
-  currNumber = '';
+  inputs = [0];
+  currNumber = '0';
 }
 
 function handleEquals() {
@@ -118,7 +118,7 @@ function handleEquals() {
   let ansString = ans.toString();
   currNumber = ansString;
   display.textContent = ansString;
-  inputs = [];
+  inputs = [ans];
 }
 
 // Add event listeners to each calculator button that calls the appropriate handler function
