@@ -2,7 +2,7 @@ const display = document.querySelector('.display');
 const digits = '0123456789';
 const operators = '+-*/';
 let currNumber = '0';
-let inputs = [0];
+let inputs = [];
 
 function add(a, b) {
   return a + b;
@@ -43,9 +43,9 @@ function operateOnInputs(inputs) {
       let input = inputs[i];
       if (input === '*' || input === '/') {
         let ans = operate(inputs[i - 1], input, inputs[i + 1]);
-        inputs = inputs.slice(0, i - 1).concat(inputs.slice(i + 2));
-        inputs[i - 1] = ans;
-        i -= 2;
+        inputs = inputs.slice(0, i).concat(inputs.slice(i + 2));
+        i -= 1;
+        inputs[i] = ans;
       }
     }
     // Perform any addition/subtraction last
@@ -53,9 +53,9 @@ function operateOnInputs(inputs) {
       let input = inputs[i];
       if (input === '+' || input === '-') {
         let ans = operate(inputs[i - 1], input, inputs[i + 1]);
-        inputs = inputs.slice(0, i - 1).concat(inputs.slice(i + 2));
-        inputs[i - 1] = ans;
-        i -= 2;
+        inputs = inputs.slice(0, i).concat(inputs.slice(i + 2));
+        i -= 1;
+        inputs[i] = ans;
       }
     }
     return inputs[0];
@@ -63,7 +63,11 @@ function operateOnInputs(inputs) {
 }
 
 function handleNumber(key) {
-  if (currNumber === '0' || display.textContent === '0') {
+  if (display.textContent === '0') {
+    inputs.pop();
+    currNumber = key;
+    display.textContent = key;
+  } else if (currNumber === '0') {
     currNumber = key;
     display.textContent = display.textContent.slice(0, -1) + key;
   } else {
@@ -83,13 +87,15 @@ function handleBackspace() {
   if (display.textContent.length === 1) {
     display.textContent = 0;
     currNumber = '0';
-    inputs = [0];
+    inputs = [];
   } else {
     display.textContent = display.textContent.slice(0, -1);
     if (currNumber.length > 1) {
       currNumber = currNumber.slice(0, -1);
     } else if (currNumber.length === 1) {
       currNumber = '';
+      inputs.pop();
+    } else if (currNumber === '0') {
       inputs.pop();
     } else {
       currNumber = inputs[inputs.length - 1];
@@ -100,7 +106,7 @@ function handleBackspace() {
 
 function handleClear() {
   display.textContent = 0;
-  inputs = [0];
+  inputs = [];
   currNumber = '0';
 }
 
@@ -118,7 +124,7 @@ function handleEquals() {
   let ansString = ans.toString();
   currNumber = ansString;
   display.textContent = ansString;
-  inputs = [ans];
+  inputs = [];
 }
 
 // Add event listeners to each calculator button that calls the appropriate handler function
