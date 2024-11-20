@@ -1,8 +1,8 @@
 const display = document.querySelector('.display');
 const digits = '0123456789';
 const operators = '+-*/';
-let currNumber = '';
-let inputs = [];
+let currNumber = '0';
+let inputs = [0];
 
 function add(a, b) {
   return a + b;
@@ -33,21 +33,33 @@ function operate(numA, operator, numB) {
   }
 }
 
-// TODO: Order of operations - perform multiplication/division then addition/subtraction from left to right (e.g. 6-3*2=0)
 // Given an array of inputs, perform operations in order and return answer
 function operateOnInputs(inputs) {
-  let ans = inputs.reduce((obj, input) => {
-    if (typeof input === 'number') {
-      obj.total = operate(obj.total, obj.operator, input);
-    } else if (operators.includes(input)) {
-      obj.operator = input;
+  if (inputs.length < 3) {
+    return +currNumber;
+  } else {
+    // Perform any multiplication/division first
+    for (let i = 0; i < inputs.length; i++) {
+      let input = inputs[i];
+      if (input === '*' || input === '/') {
+        let ans = operate(inputs[i - 1], input, inputs[i + 1]);
+        inputs = inputs.slice(0, i - 1).concat(inputs.slice(i + 2));
+        inputs[i - 1] = ans;
+        i -= 2;
+      }
     }
-    return obj;
-  }, {
-    total: 0,
-    operator: '+',
-  })
-  return ans.total;
+    // Perform any addition/subtraction last
+    for (let i = 0; i < inputs.length; i++) {
+      let input = inputs[i];
+      if (input === '+' || input === '-') {
+        let ans = operate(inputs[i - 1], input, inputs[i + 1]);
+        inputs = inputs.slice(0, i - 1).concat(inputs.slice(i + 2));
+        inputs[i - 1] = ans;
+        i -= 2;
+      }
+    }
+    return inputs[0];
+  }
 }
 
 function handleNumber(key) {
